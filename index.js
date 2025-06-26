@@ -1,21 +1,21 @@
 const express = require('express');
-const cors = require('cors');
+const path = require('path');
 const app = express();
-const PORT = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 
-app.use(cors());
-app.use(express.json());
+// Отдаём всё из папки public (в том числе index.html)
+app.use(express.static('public'));
 
+// Главная страница
 app.get('/', (req, res) => {
-  res.send('NG Store Payment Backend is live 🚀');
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.post('/api/pay', (req, res) => {
-  // Заглушка для оплаты — можно подключить платёжный API
-  console.log('Payment request:', req.body);
-  res.json({ success: true, message: 'Payment processed (stub)' });
+// Пример заглушки для POST-запроса (если хочешь заранее)
+app.post('/pay', (req, res) => {
+  res.status(200).json({ message: 'Платёжная система скоро будет подключена.' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`🔌 Сервер оплаты NG Store запущен на http://localhost:${port}`);
 });
